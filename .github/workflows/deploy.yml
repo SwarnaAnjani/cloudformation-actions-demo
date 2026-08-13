@@ -10,13 +10,10 @@ permissions:
   contents: read
 
 jobs:
-
   deploy:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -29,9 +26,14 @@ jobs:
       - name: Verify AWS Identity
         run: aws sts get-caller-identity
 
+      - name: Check Repository Files
+        run: |
+          pwd
+          ls -la
+
       - name: Deploy CloudFormation Stack
         run: |
           aws cloudformation deploy \
-            --template-file template.yml \
+            --template-file ./template.yml \
             --stack-name github-actions-cloudformation-demo \
             --no-fail-on-empty-changeset
